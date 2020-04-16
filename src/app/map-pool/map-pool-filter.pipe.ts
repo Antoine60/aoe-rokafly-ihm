@@ -9,7 +9,6 @@ export class MapFilterPipe implements PipeTransform {
         if (!searchTerm.mapSearched) {
             return value;
         }
-        console.log(searchTerm.poolMapsSelected);
         return value.filter((map: IMap) => {
             return this.filtreMap(map, searchTerm.mapSearched, searchTerm.poolMapsSelected);
         });

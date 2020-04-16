@@ -1,7 +1,7 @@
 <h2>Map pool</h2>
 <hr>
 <div class="row">
-    <div class="col-7 mr-auto">
+    <div class="col-7 mx-0">
         <p *ngIf=[errors] class="alert-danger">
             <span *ngFor="let error of errors;">
                 {{error}}
@@ -12,60 +12,62 @@
         </p>
     </div>
 </div>
-<div class="row" *ngIf="isMatchGenerated(); else configurationMatch">
-    <div *ngFor="let map of matchGenerated; let i = index" class="col">
+<div class="row mx-0" *ngIf="isMatchGenerated(); else configurationMatch">
+    <div *ngFor="let map of matchGenerated; let i = index" class="col-2 offset-1">
         <div class="text-center">
-            <img src="../../assets/image/map/{{map.name}}" alt="Lights" width="200px">
+            <img src="../../assets/image/map/{{map.name}}" alt="Lights" width="100%">
             <br>
             <h3>
                 Game {{i + 1}}
             </h3>
             <br>
             <span>
-            {{ map }}
+            {{ map.name }}
             </span>
         </div>
 
     </div>
 </div>
 
-<ng-template #configurationMatch>
-    <div *ngIf="isPoolFill()" class="row">
-        <div class="col">
-            <h2>Selected map pool :</h2>
-            <div class="row">
-                <div *ngFor="let map of poolMapsSelected; let i = index" class="col-1">
-                    <div class="thumbnail">
+<ng-template #configurationMatch class="mx-0">
+    <div *ngIf="isPoolFill()">
+        <div class="row mx-0">
+            <div class="col-12">
+                <h2>Selected map pool: </h2>
+            </div>
+        </div>
+        <div class="row mx-0">
+            <div *ngFor="let map of poolMapsSelected; let i = index" class="col-1">
+                <div class="thumbnail">
                             <span (click)="removeMapFromPool(map.id)" id="span{{map.name}}">
                                 <img src="../../assets/image/map/{{map.name}}" alt="Lights" style="width:100%">
                             </span>
-                    </div>
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="actions col-2 offset-1" *ngFor="let bestOf of [1,3,5]">
+        <div class="row mx-0">
+            <div class="actions col-1" *ngFor="let bestOf of [1,3,5]">
                 <span (click)="generateMatch(bestOf)" class="btn btn-info">Bo{{bestOf}}</span>
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col">
+    <div class="row mx-0">
+        <div class="col-12">
             <div class="form-group">
                 <label for="search">Search:</label>
                 <input class="form-control mr-sm-2" type="text" name="search" id="search" placeholder="Map name"
                        [(ngModel)]="mapSearched">
             </div>
         </div>
-        <div class="row">
-            <div *ngFor="let map of poolMaps | mapFilter: {mapSearched:mapSearched, poolMapsSelected:poolMapsSelected}; let i = index" class="col-1">
-                <div class="thumbnail">
-            <span (click)="selectMap(map.id)" id="span{{map.name}}">
-                <img src="../../assets/image/map/{{map.name}}" alt="Lights" style="width:100%">
-                <!--                <div class="caption">a</div>-->
-            </span>
-                </div>
-            </div>
+    </div>
+    <div class="row mx-0">
+        <div
+             class="col-2"
+             *ngFor="let map of poolMaps | mapFilter: {mapSearched:mapSearched, poolMapsSelected:poolMapsSelected}; let i = index"
+        >
+                    <span (click)="selectMap(map.id)" id="span{{map.name}}">
+                                        <img src="../../assets/image/map/{{map.name}}" alt="Lights" width="100%">
+                                    </span>
         </div>
     </div>
 </ng-template>
