@@ -28,7 +28,7 @@
 
     </div>
 </div>
-<hr *ngIf="isMatchGenerated();">
+
 <ng-template #configurationMatch>
     <div *ngIf="isPoolFill()" class="row">
         <div class="col">
@@ -36,7 +36,7 @@
             <div class="row">
                 <div *ngFor="let map of poolMapsSelected; let i = index" class="col-1">
                     <div class="thumbnail">
-                            <span (click)="removeMapFromPool(i)" id="span{{map.name}}">
+                            <span (click)="removeMapFromPool(map.id)" id="span{{map.name}}">
                                 <img src="../../assets/image/map/{{map.name}}" alt="Lights" style="width:100%">
                             </span>
                     </div>
@@ -50,12 +50,21 @@
         </div>
     </div>
     <div class="row">
-        <div *ngFor="let map of poolMaps; let i = index" class="col-1">
-            <div class="thumbnail">
-            <span (click)="selectMap(i)" id="span{{map.name}}">
+        <div class="col">
+            <div class="form-group">
+                <label for="search">Search:</label>
+                <input class="form-control mr-sm-2" type="text" name="search" id="search" placeholder="Map name"
+                       [(ngModel)]="mapSearched">
+            </div>
+        </div>
+        <div class="row">
+            <div *ngFor="let map of poolMaps | mapFilter: {mapSearched:mapSearched, poolMapsSelected:poolMapsSelected}; let i = index" class="col-1">
+                <div class="thumbnail">
+            <span (click)="selectMap(map.id)" id="span{{map.name}}">
                 <img src="../../assets/image/map/{{map.name}}" alt="Lights" style="width:100%">
                 <!--                <div class="caption">a</div>-->
             </span>
+                </div>
             </div>
         </div>
     </div>

@@ -15,6 +15,7 @@ export class MapPoolComponent implements OnInit {
     poolMaps = [];
     matchGenerated = [];
     errors = [];
+    mapSearched: string;
 
     constructor(private mapPoolService: MapPoolService) {
         this.mapPool = true;
@@ -29,8 +30,9 @@ export class MapPoolComponent implements OnInit {
      * @param indexMapSelected
      */
     selectMap(indexMapSelected) {
-        this.poolMapsSelected.push(this.poolMaps[indexMapSelected]);
-        this.poolMaps.splice(indexMapSelected, 1);
+        let index = this.poolMaps.findIndex(res => indexMapSelected === res.id);
+        this.poolMapsSelected.push(this.poolMaps[index]);
+        this.poolMaps.splice(index, 1);
     }
 
     /**
@@ -38,8 +40,9 @@ export class MapPoolComponent implements OnInit {
      * @param indexMapSelected
      */
     removeMapFromPool(indexMapSelected) {
-        this.poolMaps.push(this.poolMapsSelected[indexMapSelected]);
-        this.poolMapsSelected.splice(indexMapSelected, 1);
+        let index = this.poolMapsSelected.findIndex(res => indexMapSelected === res.id);
+        this.poolMaps.push(this.poolMapsSelected[index]);
+        this.poolMapsSelected.splice(index, 1);
     }
 
     isPoolFill() {
@@ -61,7 +64,6 @@ export class MapPoolComponent implements OnInit {
             return;
         }
         numberRoundsLeft = numberRounds;
-        console.log(numberRoundsLeft);
         while (numberRoundsLeft >= 1) {
             const randomIndexSelected = Math.floor(Math.random() * (this.poolMapsSelected.length));
             if (this.matchGenerated.indexOf(this.poolMapsSelected[randomIndexSelected]) === -1) {
@@ -93,6 +95,19 @@ export class MapPoolComponent implements OnInit {
                 console.error(err.status);
             }
         );
-        console.log(this.poolMaps);
+    }
+
+
+    searchMap(searchName: string) {
+        this.mapPoolService.getAllMaps().subscribe(
+            (res) => {
+                this.poolMaps = res.filter(
+                    (map: IMap) => map.name === searchName
+                );
+            },
+            (err) => {
+                console.error(err.status);
+            }
+        );
     }
 }
