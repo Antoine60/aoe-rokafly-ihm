@@ -2,7 +2,8 @@ import {IMap} from './../model/map';
 import {Pipe, PipeTransform} from '@angular/core';
 
 @Pipe({
-    name: 'mapFilter'
+    name: 'mapFilter',
+    pure: false
 })
 export class MapFilterPipe implements PipeTransform {
     transform(value: IMap[], searchTerm: any = '') {
